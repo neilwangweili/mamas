@@ -136,7 +136,21 @@ The system extends itself. Three infrastructure specialists make this possible:
 
 This creates a closed loop: **task → gap detected → specialist created → task completed → capability permanently expanded**.
 
-### 5. Token Economy
+### 5. Pattern-Driven Constraints
+
+AI-generated content can drift from business requirements or user expectations. MAMAS solves this with **reusable behavior patterns**:
+
+- **What they are**: Pre-defined constraints that specify how specialists should execute tasks (format rules, quality standards, process requirements)
+- **How they work**: Planner identifies applicable patterns → Coordinator ensures specialists read them → specialists apply constraints → Coordinator validates compliance
+- **Pattern types**:
+  - **Domain patterns**: Academic writing, legal contracts, technical specs
+  - **Quality patterns**: Evidence-based argumentation, consistency checks
+  - **Format patterns**: Structured reports, API documentation
+  - **Process patterns**: Iterative refinement, multi-round review
+
+**Result**: Output matches real workflows and standards without manual post-editing.
+
+### 6. Token Economy
 
 AI context windows are finite. MAMAS treats tokens as a scarce resource:
 
@@ -160,6 +174,14 @@ MAMAS/
 │   ├── {domain}.md           # Domain specialists (extensible)
 │   └── .nano/                # Lightweight variants (< 250 tokens)
 │       └── {domain}.md
+│
+├── patterns/                  # Behavior constraint library
+│   ├── README.md             # Pattern system documentation
+│   ├── .index.json           # Pattern selection guide
+│   ├── academic-writing.md   # Academic writing standards
+│   ├── evidence-based.md     # Evidence-based argumentation
+│   ├── structured-report.md  # Formal report templates
+│   └── {pattern}.md          # Extensible pattern definitions
 │
 ├── .claude/
 │   └── experts-index.json    # Capability routing registry

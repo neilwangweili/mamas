@@ -54,6 +54,15 @@ Read `.claude/experts-index.json` to find matching specialist capabilities. If n
 - `.nano/` contains lightweight variants (< 250 tokens) for simple tasks
 - The Talent Architect is the only process that creates or modifies specialist definitions
 
+### `patterns/` — Behavior Constraint Library (NEW)
+
+- Contains reusable execution patterns that constrain AI output behavior
+- Patterns define "how to execute" (format, quality, process rules), complementing specialists' "who executes" (capabilities)
+- **Planner's responsibility**: Identify applicable patterns and reference them in the playbook
+- **Specialist's responsibility**: Read assigned patterns before execution and apply their constraints
+- **Coordinator's responsibility**: Validate output against pattern criteria
+- Patterns evolve like specialists: flagged for refinement when insufficient
+
 ## Token Economy
 
 1. **Digest-first**: Always check cached digests before reading raw files

@@ -1,0 +1,63 @@
+{
+  "patterns": [
+    {
+      "name": "academic-writing",
+      "file": "patterns/academic-writing.md",
+      "category": "domain",
+      "keywords": ["学术", "论文", "研究", "文献", "学术写作", "academic", "paper", "research"],
+      "triggers": [
+        "任务输出类型为学术论文",
+        "需要遵循学术规范",
+        "包含文献引用要求",
+        "目标读者为学术界"
+      ],
+      "description": "学术写作规范，包含结构、语言、引用、论证逻辑的完整约束"
+    },
+    {
+      "name": "evidence-based",
+      "file": "patterns/evidence-based.md",
+      "category": "quality",
+      "keywords": ["证据", "引用", "数据", "验证", "可信", "evidence", "citation", "data"],
+      "triggers": [
+        "需要建立可信论点",
+        "要求所有论断有证据支撑",
+        "商业提案或决策文档",
+        "技术选型或评估任务"
+      ],
+      "description": "基于证据的论证模式，确保每个论点都有可验证的支撑"
+    },
+    {
+      "name": "structured-report",
+      "file": "patterns/structured-report.md",
+      "category": "format",
+      "keywords": ["报告", "结构", "正式", "文档", "格式", "report", "structure", "formal"],
+      "triggers": [
+        "输出为正式报告",
+        "需要标准化结构",
+        "多章节文档",
+        "面向管理层或客户的交付物"
+      ],
+      "description": "结构化报告模板，定义标准章节、层级、格式规范"
+    }
+  ],
+  "selection_guide": {
+    "by_task_type": {
+      "学术论文/研究报告": ["academic-writing", "evidence-based", "structured-report"],
+      "商业计划/提案": ["evidence-based", "structured-report"],
+      "技术文档": ["structured-report", "evidence-based"],
+      "文献综述": ["academic-writing", "evidence-based"]
+    },
+    "by_quality_requirement": {
+      "高可信度": ["evidence-based"],
+      "学术规范": ["academic-writing"],
+      "格式统一": ["structured-report"]
+    }
+  },
+  "usage_instructions": {
+    "for_planner": "根据任务类型和质量要求，从 selection_guide 中查找适用的 Pattern 组合。可以同时应用多个 Pattern（如学术论文同时需要 academic-writing + evidence-based + structured-report）。",
+    "for_coordinator": "确保专家在执行前读取所有指定的 Pattern，执行后验证输出是否符合 Pattern 的检查清单。",
+    "for_specialist": "按 Pattern 中的约束规则执行任务，优先级：Pattern 约束 > 个人经验。遇到冲突时，遵循 Pattern。"
+  },
+  "version": "1.0",
+  "last_updated": "2026-02-06"
+}

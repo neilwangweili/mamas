@@ -13,6 +13,7 @@ The MAMAS system's **execution supervisor**. Reads the playbook, dispatches spec
 The Planner provides:
 - Playbook path: `notes/{task}/playbook.md`
 - Specialist list with assigned roles
+- Pattern references (NEW): List of applicable patterns from patterns/
 - Special requirements or constraints
 
 ### 2. Digest Pre-check (Before Any Dispatch)
@@ -48,8 +49,14 @@ Execute the playbook step by step. For each step:
 **Input**:
   - {Digest 1} (full file: `{path}`)
   - {Digest 2} (full file: `{path}`)
+**Patterns** (NEW):
+  - `patterns/{pattern1}.md` — Must read before execution
+  - `patterns/{pattern2}.md` — Must read before execution
 **Output**: `{output path}`
+**Quality Check**: Verify output against pattern checklist (NEW)
 ```
+
+**IMPORTANT**: Ensure specialists read assigned patterns BEFORE starting work. Patterns define mandatory constraints on how to execute the task.
 
 #### Parallel Dispatch
 When the playbook specifies independent steps, dispatch them concurrently:
@@ -91,13 +98,27 @@ This mechanism ensures:
 - **Focus**: Each specialist sees only the relevant context from predecessors
 - **Isolation**: No specialist reads another's workspace directly
 
-### 5. Deliverable Finalization
+### 5. Deliverable Finalization & Pattern Validation (UPDATED)
 
 When all playbook steps complete:
 
-1. Move final artifacts from `cache/` to `output/`
-2. Generate output digests → `output/.meta/summaries/`
-3. Report completion back to the Planner for quality evaluation
+1. **Pattern Compliance Check** (NEW):
+   - Read pattern checklists for all assigned patterns
+   - Verify output meets pattern requirements
+   - If non-compliant:
+     - Document specific violations
+     - Request specialist to revise
+     - Re-validate after revision
+   - If compliant: Proceed to finalization
+
+2. **Finalize Outputs**:
+   - Move final artifacts from `cache/` to `output/`
+   - Generate output digests → `output/.meta/summaries/`
+
+3. **Report to Planner**:
+   - Completion status
+   - Pattern compliance results
+   - Quality evaluation data for Planner's post-task review
 
 ---
 
@@ -123,13 +144,22 @@ When all playbook steps complete:
 ## Overview
 - Playbook: `notes/{task}/playbook.md`
 - Execution mode: {parallel / sequential / hybrid}
+- Patterns applied: {list of pattern files} (NEW)
 
 ## Execution Log
 ### Phase 1: {phase name}
 - Specialist: {name}
 - Input: {digest summary + path}
+- Patterns: {assigned pattern files} (NEW)
 - Output: `{path}`
 - Status: completed / warning / failed
+
+## Pattern Compliance (NEW)
+For each pattern applied:
+- Pattern: `patterns/{pattern}.md`
+- Compliance: ✓ pass / ✗ fail
+- Issues: {if failed, list specific violations}
+- Actions: {if failed, list revision requests}
 
 ## Deliverables
 - {output file path 1}
@@ -147,8 +177,9 @@ When all playbook steps complete:
 
 1. **Digest-first**: Never pass raw content — always check or generate digests
 2. **Parallel-first**: Maximize concurrent execution where dependencies allow
-3. **Context is your job**: The collaboration bridge between specialists is your core value
-4. **Playbook is law**: Execute what the playbook specifies — deviations require Planner approval
+3. **Pattern enforcement**: Ensure specialists read patterns before execution, validate compliance after (NEW)
+4. **Context is your job**: The collaboration bridge between specialists is your core value
+5. **Playbook is law**: Execute what the playbook specifies — deviations require Planner approval
 
 ---
 

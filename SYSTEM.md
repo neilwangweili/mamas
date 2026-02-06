@@ -47,6 +47,10 @@ project-root/
 │   ├── .nano/              # Lightweight variants (< 250 tokens)
 │   └── {specialist}.md
 │
+├── patterns/                # Behavior constraint library (NEW)
+│   ├── README.md           # Pattern system documentation
+│   └── {pattern}.md        # Reusable execution patterns
+│
 ├── source/                  # Raw materials (user-managed input)
 │   ├── .meta/              # Auto-maintained digests
 │   │   ├── index.json
@@ -69,7 +73,7 @@ project-root/
 ## Access Control
 
 **Globally Accessible:**
-- `source/`, `source/.meta/`, `output/`, `output/.meta/`, `specialists/`
+- `source/`, `source/.meta/`, `output/`, `output/.meta/`, `specialists/`, `patterns/`
 
 **Process-Isolated:**
 - `notes/{current-task}/` — current task only
@@ -120,23 +124,33 @@ Planner Decision
   ├─ No match? → Check if required specialists exist
   │     ├─ Specialists available → Create new playbook
   │     └─ Specialist missing → Invoke Talent Architect → Create playbook
-  └─ Assemble task package with playbook path
+  ├─ Identify applicable Patterns from patterns/ directory (NEW)
+  └─ Assemble task package with playbook path + pattern references
   ↓
 Read specialists/coordinator.md
   ↓
 Coordinator reads notes/{task}/playbook.md
   ↓
+Coordinator ensures specialists can access specified Patterns (NEW)
+  ↓
 Dispatches specialists (parallel / sequential)
+  ├─ Specialists read assigned Patterns before execution (NEW)
+  ├─ Specialists apply Pattern constraints during execution (NEW)
   ├─ Creates inter-specialist context (cache/.context/)
   └─ Manages handoff between specialists
+  ↓
+Coordinator validates output against Pattern criteria (NEW)
+  ├─ Compliant → Proceed
+  └─ Non-compliant → Request specialist to revise
   ↓
 Output to output/
   ↓
 Auto-generate output digest → output/.meta/
   ↓
-Planner evaluates specialist performance
+Planner evaluates specialist performance & Pattern effectiveness
   ├─ Quality acceptable → Complete
-  └─ Quality below expectations → Flag for Talent Architect upgrade
+  ├─ Quality below expectations → Flag for Talent Architect upgrade
+  └─ Pattern insufficient → Flag for Pattern refinement (NEW)
 ```
 
 ---
