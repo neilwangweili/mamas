@@ -37,6 +37,13 @@ flowchart TB
         D1["Summaries & indexes<br/>(generated on demand)"]
     end
 
+    subgraph PATTERNS ["patterns/ — Behavior Constraints"]
+        direction LR
+        PT1["Domain<br/>academic-writing<br/>legal-contract"]
+        PT2["Quality<br/>evidence-based<br/>consistency"]
+        PT3["Format<br/>structured-report<br/>api-docs"]
+    end
+
     subgraph ROUTING ["Intelligent Routing"]
         R{{"Complexity<br/>assessment"}}
         R -->|Simple| NANO["Nano specialist<br/>(direct execution)"]
@@ -45,15 +52,15 @@ flowchart TB
 
     subgraph MAMAS_MODE ["MAMAS Orchestration"]
         direction TB
-        P["Planner<br/>━━━━━━━━━━<br/>Analyzes task<br/>Selects or creates playbook<br/>Identifies required specialists"]
-        C["Coordinator<br/>━━━━━━━━━━<br/>Reads playbook<br/>Dispatches specialists<br/>Manages parallel/sequential flow"]
-        E["Domain Specialists<br/>━━━━━━━━━━<br/>Execute assigned work<br/>Produce artifacts"]
+        P["Planner<br/>━━━━━━━━━━<br/>Analyzes task<br/>Selects or creates playbook<br/>Identifies specialists<br/>Selects patterns"]
+        C["Coordinator<br/>━━━━━━━━━━<br/>Reads playbook<br/>Dispatches specialists<br/>Validates pattern compliance"]
+        E["Domain Specialists<br/>━━━━━━━━━━<br/>Read assigned patterns<br/>Apply constraints<br/>Produce artifacts"]
         P --> C --> E
     end
 
     subgraph NOTES ["notes/ — Process Isolation"]
-        N1["notes/task-A/<br/>├── playbook.md<br/>└── cache/"]
-        N2["notes/task-B/<br/>├── playbook.md<br/>└── cache/"]
+        N1["notes/task-A/<br/>├── playbook.md<br/>├── patterns.md<br/>└── cache/"]
+        N2["notes/task-B/<br/>├── playbook.md<br/>├── patterns.md<br/>└── cache/"]
     end
 
     subgraph OUTPUT ["output/ — Deliverables"]
@@ -73,6 +80,10 @@ flowchart TB
     NOTES --> OUTPUT
     OUTPUT --> OUTPUT_DIGEST
 
+    PATTERNS -.->|"Pattern selection"| P
+    P -.->|"Pattern references"| NOTES
+    E -.->|"Pattern compliance"| C
+
     subgraph EVOLUTION ["Self-Evolution"]
         TA["Talent Architect<br/>━━━━━━━━━━<br/>Creates missing specialists<br/>Upgrades underperforming ones<br/>Maintains capability registry"]
     end
@@ -80,11 +91,15 @@ flowchart TB
     P -.->|"No matching specialist"| TA
     TA -.->|"New specialist ready"| P
 
+    PATTERNS -.->|"Pattern refinement"| TA
+    TA -.->|"Updated pattern"| PATTERNS
+
     style INPUT fill:#e8f5e9,stroke:#2e7d32
     style OUTPUT fill:#e3f2fd,stroke:#1565c0
     style MAMAS_MODE fill:#fff3e0,stroke:#ef6c00
     style EVOLUTION fill:#fce4ec,stroke:#c62828
     style NOTES fill:#f3e5f5,stroke:#7b1fa2
+    style PATTERNS fill:#e0f7fa,stroke:#006064
 ```
 
 ## Core Concepts

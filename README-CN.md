@@ -37,6 +37,13 @@ flowchart TB
         D1["汇总与索引<br/>(按需生成)"]
     end
 
+    subgraph PATTERNS ["patterns/ — 行为约束"]
+        direction LR
+        PT1["领域模式<br/>academic-writing<br/>legal-contract"]
+        PT2["质量模式<br/>evidence-based<br/>consistency"]
+        PT3["格式模式<br/>structured-report<br/>api-docs"]
+    end
+
     subgraph ROUTING ["智能路由"]
         R{{"复杂度<br/>评估"}}
         R -->|简单| NANO["轻量专家<br/>(直接执行)"]
@@ -45,15 +52,15 @@ flowchart TB
 
     subgraph MAMAS_MODE ["MAMAS 编排"]
         direction TB
-        P["规划师<br/>━━━━━━━━━━<br/>分析任务<br/>选择或创建剧本<br/>识别所需专家"]
-        C["协调员<br/>━━━━━━━━━━<br/>读取剧本<br/>调度专家<br/>管理并行/串行流程"]
-        E["领域专家<br/>━━━━━━━━━━<br/>执行指派工作<br/>生成交付物"]
+        P["规划师<br/>━━━━━━━━━━<br/>分析任务<br/>选择或创建剧本<br/>识别专家<br/>选择模式"]
+        C["协调员<br/>━━━━━━━━━━<br/>读取剧本<br/>调度专家<br/>验证模式合规性"]
+        E["领域专家<br/>━━━━━━━━━━<br/>读取指定模式<br/>应用约束<br/>生成交付物"]
         P --> C --> E
     end
 
     subgraph NOTES ["notes/ — 流程隔离"]
-        N1["notes/task-A/<br/>├── playbook.md<br/>└── cache/"]
-        N2["notes/task-B/<br/>├── playbook.md<br/>└── cache/"]
+        N1["notes/task-A/<br/>├── playbook.md<br/>├── patterns.md<br/>└── cache/"]
+        N2["notes/task-B/<br/>├── playbook.md<br/>├── patterns.md<br/>└── cache/"]
     end
 
     subgraph OUTPUT ["output/ — 交付物"]
@@ -73,6 +80,10 @@ flowchart TB
     NOTES --> OUTPUT
     OUTPUT --> OUTPUT_DIGEST
 
+    PATTERNS -.->|"模式选择"| P
+    P -.->|"模式引用"| NOTES
+    E -.->|"模式合规"| C
+
     subgraph EVOLUTION ["自我进化"]
         TA["人才架构师<br/>━━━━━━━━━━<br/>创建缺失专家<br/>升级表现不佳者<br/>维护能力注册表"]
     end
@@ -80,11 +91,15 @@ flowchart TB
     P -.->|"无匹配专家"| TA
     TA -.->|"新专家就绪"| P
 
+    PATTERNS -.->|"模式优化"| TA
+    TA -.->|"更新模式"| PATTERNS
+
     style INPUT fill:#e8f5e9,stroke:#2e7d32
     style OUTPUT fill:#e3f2fd,stroke:#1565c0
     style MAMAS_MODE fill:#fff3e0,stroke:#ef6c00
     style EVOLUTION fill:#fce4ec,stroke:#c62828
     style NOTES fill:#f3e5f5,stroke:#7b1fa2
+    style PATTERNS fill:#e0f7fa,stroke:#006064
 ```
 
 ## 核心概念
