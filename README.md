@@ -219,6 +219,194 @@ cp chat-log.md your-project/MAMAS/source/
 # The system routes, plans, executes, and delivers.
 ```
 
+## Usage Guide
+
+### How to Use MAMAS
+
+MAMAS is designed to work with any AI assistant that supports the Claude Code framework. You simply interact in natural language, and the system handles the orchestration automatically.
+
+#### Step 1: Prepare Your Materials
+
+Place any relevant materials in the `source/` directory:
+
+```bash
+# Examples of what you can add:
+source/
+├── meeting-notes-2024-01.md
+├── customer-chat-log.md
+├── competitor-analysis.pdf
+├── technical-requirements.md
+└── project-brief.docx
+```
+
+The system automatically generates digests of these files and caches them in `source/.meta/summaries/` for efficient reuse.
+
+#### Step 2: Describe Your Task
+
+Simply tell the AI what you need. The system automatically:
+- Routes to the appropriate specialist(s)
+- Applies relevant behavior patterns
+- Generates a playbook (for complex tasks)
+- Produces deliverables in `output/`
+
+**Example Tasks**:
+
+```
+Simple (Direct Mode):
+"Summarize the meeting notes in source/"
+→ Context Synthesizer handles it directly
+
+Moderate (Full Specialist):
+"Analyze the competitive landscape based on source/competitor-analysis.pdf"
+→ Research Analyst executes with full methodology
+
+Complex (MAMAS Mode):
+"Create a comprehensive business proposal including market analysis,
+technical architecture, cost assessment, and implementation plan"
+→ Planner → Coordinator → Multiple specialists collaborate
+```
+
+#### Step 3: Review Deliverables
+
+All outputs appear in the `output/` directory:
+
+```
+output/
+├── business-proposal.md
+├── technical-architecture.md
+└── implementation-plan.md
+```
+
+Each output automatically gets a digest in `output/.meta/summaries/` for downstream tasks.
+
+### Understanding Routing
+
+MAMAS uses intelligent routing to optimize cost and latency:
+
+**When you make a request, the system evaluates:**
+
+1. **Is this a simple, single-domain task?**
+   - YES → Direct Mode (nano specialist, ~150-200 tokens)
+   - Example: "Summarize this document"
+
+2. **Does it need deep methodology but single specialist?**
+   - YES → Full Specialist Mode (~1500-2500 tokens)
+   - Example: "Conduct competitive analysis"
+
+3. **Does it require multiple specialists or cross-domain work?**
+   - YES → MAMAS Mode (Planner + Coordinator + Specialists)
+   - Example: "Create a complete project proposal"
+
+You don't need to specify the mode — the system decides automatically based on task complexity.
+
+### Working with Patterns
+
+Patterns ensure your outputs match real-world standards and requirements.
+
+**Automatic Pattern Application**:
+
+When you request a task, the Planner automatically identifies applicable patterns:
+
+```
+Request: "Write an academic paper on multi-agent systems"
+
+Planner selects:
+- patterns/academic-writing.md (ensures academic structure)
+- patterns/evidence-based.md (requires citation support)
+- patterns/structured-report.md (enforces standard sections)
+
+Result: Output follows academic conventions without you specifying details
+```
+
+**Available Patterns**:
+
+- `academic-writing.md` — Academic papers, research reports
+- `evidence-based.md` — Any document requiring credible arguments
+- `structured-report.md` — Formal reports, proposals
+
+**Extending Patterns**:
+
+Create new patterns in `patterns/` following the template in `patterns/README.md`. The system will automatically discover and use them.
+
+### Advanced Usage
+
+#### Reusing Playbooks
+
+When MAMAS mode creates a playbook for a task, it's stored in `notes/{task}/playbook.md`. Similar future tasks automatically reuse proven playbooks:
+
+```
+First time: "Analyze chat logs to extract customer pain points"
+→ Creates notes/chat-analysis/playbook.md
+
+Next time: "Analyze these new chat logs for pain points"
+→ Reuses the existing playbook (no planning overhead)
+```
+
+#### Iterative Workflows
+
+Build on previous outputs:
+
+```
+Step 1: "Analyze the market based on source/market-data.csv"
+→ Produces output/market-analysis.md
+
+Step 2: "Based on the market analysis, propose a business strategy"
+→ Reads digest of output/market-analysis.md
+→ Produces output/business-strategy.md
+
+Step 3: "Create an implementation roadmap for the business strategy"
+→ Builds on previous outputs
+```
+
+Each step reuses cached digests — no redundant re-reading.
+
+#### Custom Specialists
+
+The system can create new specialists on demand via the Talent Architect:
+
+```
+Request: "Analyze legal contracts for compliance risks"
+
+System detects:
+- No existing specialist matches "legal contract analysis"
+- Invokes Talent Architect
+- Creates specialists/legal-analyst.md
+- Updates .claude/experts-index.json
+- Executes the task
+
+Future tasks:
+- "legal contract" keywords now route to the new specialist
+```
+
+### Best Practices
+
+1. **Organize source materials clearly**: Use descriptive filenames like `customer-feedback-2024-Q1.md` instead of `notes.md`
+
+2. **Start simple, scale up**: Begin with straightforward tasks to understand routing, then tackle complex multi-specialist workflows
+
+3. **Review playbooks**: After a MAMAS-mode task, check `notes/{task}/playbook.md` to understand how the system decomposed your request
+
+4. **Leverage patterns**: When output doesn't match your expectations, consider creating a custom pattern rather than repeatedly correcting
+
+5. **Trust the digests**: The system's digest cache (`source/.meta/` and `output/.meta/`) significantly reduces token usage — don't bypass it
+
+### Troubleshooting
+
+**"Output doesn't match my requirements"**
+- Check if an appropriate pattern exists in `patterns/`
+- Create a custom pattern defining your specific requirements
+- The Planner will auto-apply it to future similar tasks
+
+**"Task seems to use the wrong specialist"**
+- The routing decision is based on keywords in `.claude/experts-index.json`
+- You can guide routing by including specific terms in your request
+- Example: "As a technical architect, design..." vs "Design..."
+
+**"Want to see the process, not just results"**
+- Check `notes/{task}/playbook.md` for the execution plan
+- Review `notes/{task}/cache/` for intermediate artifacts
+- These show exactly how the system broke down and executed your task
+
 ## License
 
 [MIT](LICENSE)
