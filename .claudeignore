@@ -1,0 +1,16 @@
+# Backup files
+specialists/.backup/
+specialists/*_v2.md
+
+# Temporary files
+**/.DS_Store
+**/~*
+**/*.tmp
+
+# Large cache artifacts (prevent auto-reading)
+notes/*/cache/*.pdf
+notes/*/cache/*.png
+notes/*/cache/*.jpg
+
+# Legacy reports
+MAMAS_optimization_report_*.md

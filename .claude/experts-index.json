@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "description": "Specialist capability index for fast task-to-specialist matching, avoiding full file reads during routing",
+
+  "nano_experts": {
+    "communications": {
+      "file": "specialists/.nano/communications.md",
+      "tokens": 150,
+      "keywords": ["chat", "communication", "customer", "dialogue", "stakeholder", "conversation"],
+      "input": ["chat records"],
+      "output": ["stakeholder profile", "response draft"],
+      "capabilities": ["analyze conversations", "update stakeholder profiles", "generate responses"]
+    },
+
+    "context-synthesizer": {
+      "file": "specialists/.nano/context-synthesizer.md",
+      "tokens": 180,
+      "keywords": ["summary", "compress", "condense", "synthesize", "digest"],
+      "input": ["large file path"],
+      "output": ["summary file"],
+      "capabilities": ["generate summaries", "information compression"]
+    },
+
+    "research-analyst": {
+      "file": "specialists/.nano/research-analyst.md",
+      "tokens": 180,
+      "keywords": ["research", "investigate", "analyze", "market", "competitive analysis"],
+      "input": ["research topic", "analysis dimensions"],
+      "output": ["research report"],
+      "capabilities": ["deep research", "multi-dimensional analysis", "structured reporting"],
+      "note": "For single-topic, well-scoped research. Use full version for complex scenarios."
+    },
+
+    "technical-architect": {
+      "file": "specialists/.nano/technical-architect.md",
+      "tokens": 200,
+      "keywords": ["technical solution", "architecture", "tech selection", "technology", "cost assessment"],
+      "input": ["project requirements", "technical constraints"],
+      "output": ["technical solution document"],
+      "capabilities": ["technology selection", "architecture design", "cost assessment"],
+      "note": "For well-defined requirements. Use full version for complex architectures."
+    },
+
+    "business-strategist": {
+      "file": "specialists/.nano/business-strategist.md",
+      "tokens": 190,
+      "keywords": ["business", "product", "commercial", "operations", "feature planning", "business model"],
+      "input": ["project background", "target users", "business objectives"],
+      "output": ["business solution document"],
+      "capabilities": ["product planning", "business model design", "operational strategy"],
+      "note": "For straightforward business planning. Use full version for complex scenarios."
+    }
+  },
+
+  "full_experts": {
+    "research-analyst": {
+      "file": "specialists/research-analyst.md",
+      "tokens": 1800,
+      "keywords": ["research", "analysis", "market", "competitive", "technical research"],
+      "requires_mamas": false,
+      "capabilities": ["technical research", "competitive analysis", "market research"]
+    },
+
+    "technical-architect": {
+      "file": "specialists/technical-architect.md",
+      "tokens": 2200,
+      "keywords": ["technical solution", "architecture", "tech selection", "technology"],
+      "requires_mamas": false,
+      "capabilities": ["technology selection", "architecture design", "cost assessment"]
+    },
+
+    "business-strategist": {
+      "file": "specialists/business-strategist.md",
+      "tokens": 2000,
+      "keywords": ["business", "product", "commercial", "operations"],
+      "requires_mamas": false,
+      "capabilities": ["product planning", "business model", "operational strategy"]
+    },
+
+    "project-assessor": {
+      "file": "specialists/project-assessor.md",
+      "tokens": 2400,
+      "keywords": ["assessment", "evaluation", "feasibility", "ROI", "risk assessment"],
+      "requires_mamas": false,
+      "capabilities": ["feasibility assessment", "risk analysis", "ROI modeling"]
+    },
+
+    "communications": {
+      "file": "specialists/communications.md",
+      "tokens": 1600,
+      "keywords": ["communication", "stakeholder", "chat", "response"],
+      "requires_mamas": false,
+      "capabilities": ["conversation analysis", "stakeholder management", "response generation"]
+    },
+
+    "context-synthesizer": {
+      "file": "specialists/context-synthesizer.md",
+      "tokens": 800,
+      "keywords": ["summary", "compress", "synthesize", "condense"],
+      "requires_mamas": false,
+      "capabilities": ["document summarization", "context compression"]
+    }
+  },
+
+  "system_specialists": {
+    "planner": {
+      "file": "specialists/planner.md",
+      "tokens": 1500,
+      "role": "Decision endpoint — playbook matching, specialist chain assembly, self-evolution"
+    },
+
+    "coordinator": {
+      "file": "specialists/coordinator.md",
+      "tokens": 2000,
+      "role": "Execution supervisor — dispatches specialists, creates inter-specialist context, manages handoff chain"
+    },
+
+    "talent-architect": {
+      "file": "specialists/talent-architect.md",
+      "tokens": 1800,
+      "role": "Specialist factory — creates missing specialists, upgrades underperforming ones, maintains capability registry"
+    }
+  },
+
+  "routing_rules": {
+    "direct_mode_priority": [
+      "communications",
+      "context-synthesizer"
+    ],
+
+    "mamas_mode_priority": [
+      "project-assessor",
+      "technical-architect"
+    ],
+
+    "token_threshold": {
+      "nano": 200,
+      "full": 2500,
+      "workflow": 4000
+    }
+  }
+}
