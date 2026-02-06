@@ -1,5 +1,7 @@
 # MAMAS — Multi-Adaptive-Multi-Agent System
 
+English | [简体中文](README-CN.md)
+
 An AI-native orchestration framework that turns a single prompt into structured, multi-specialist workflows. Feed it raw materials, give it a task — reports, code, contracts, articles — it handles the rest.
 
 ## The Problem
